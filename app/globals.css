@@ -1263,3 +1263,114 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
   .videoArchive .actionRow button{flex:1}
   .currentVideoInfo>small{margin-left:0}
 }
+
+/* =========================================================
+   HOMEPAGE PORTRAIT VIDEO — autoplay on scroll
+   ========================================================= */
+.portraitVideoSection{padding:34px 0 88px;background:linear-gradient(180deg,#fff 0%,#f4f9fc 100%);overflow:hidden}
+.portraitVideoGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,410px);gap:clamp(44px,8vw,110px);align-items:center;max-width:1050px}
+.portraitVideoCopy{max-width:560px}
+.portraitVideoCopy h2{font-size:clamp(42px,5.5vw,76px);line-height:.98;margin:12px 0 20px;letter-spacing:-.035em;color:var(--deep)}
+.portraitVideoCopy p{font-size:16px;line-height:1.8;color:var(--muted);max-width:520px;margin:0}
+.portraitVideoMeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
+.portraitVideoMeta span{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border:1px solid #cfe1eb;border-radius:999px;background:#fff;color:#386278;font-size:9px;font-weight:800;letter-spacing:.11em}
+.portraitVideoFrame{position:relative;width:min(100%,380px);aspect-ratio:9/16;justify-self:center;border-radius:30px;overflow:hidden;background:#031833;box-shadow:0 30px 80px rgba(3,40,74,.23);isolation:isolate}
+.portraitVideoFrame::before{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.18);border-radius:inherit;pointer-events:none;z-index:4}
+.portraitVideoFrame video,.portraitVideoFrame iframe{display:block;width:100%;height:100%;object-fit:cover;border:0;background:#000}
+.portraitVideoControls{position:absolute;left:16px;right:16px;bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:5;opacity:.2;transition:opacity .2s ease}
+.portraitVideoFrame:hover .portraitVideoControls,.portraitVideoFrame:focus-within .portraitVideoControls{opacity:1}
+.portraitVideoControls button{min-height:38px!important;border:0;border-radius:999px;padding:0 13px;background:rgba(2,18,42,.78);backdrop-filter:blur(10px);color:#fff;font-size:10px;font-weight:800;letter-spacing:.05em}
+.portraitVideoControls button:first-child{width:38px;padding:0;display:grid;place-items:center;font-size:13px}
+.portraitVideoBadge{position:absolute;left:17px;top:17px;z-index:3;padding:8px 10px;border-radius:999px;background:rgba(2,18,42,.7);backdrop-filter:blur(8px);color:#fff;font-size:9px;font-weight:800;letter-spacing:.15em}
+.portraitVideoAdmin{border-top:4px solid #0d9fd3}
+.portraitDropzone{background:linear-gradient(135deg,#f8fbfd,#eef8fc)}
+.portraitDropIcon{width:58px;height:58px;border-radius:15px;font-size:12px;font-weight:900;letter-spacing:.05em}
+
+@media(max-width:720px){
+  .portraitVideoSection{padding:28px 0 58px}
+  .portraitVideoGrid{grid-template-columns:1fr;gap:28px}
+  .portraitVideoCopy{text-align:left}
+  .portraitVideoCopy h2{font-size:40px;margin:9px 0 14px}
+  .portraitVideoCopy p{font-size:14px;line-height:1.7}
+  .portraitVideoMeta{margin-top:18px;gap:6px}
+  .portraitVideoMeta span{font-size:8px;min-height:27px;padding:0 8px}
+  .portraitVideoFrame{width:min(100%,360px);max-height:76dvh;border-radius:24px}
+  .portraitVideoControls{opacity:1;left:12px;right:12px;bottom:12px}
+}
+
+/* PORTRAIT VIDEO MANUAL PLAY PATCH */
+.portraitVideoPlayOverlay{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:12px;
+  border:0;
+  padding:0;
+  background:linear-gradient(180deg,rgba(2,18,42,.05),rgba(2,18,42,.34));
+  color:#fff;
+  cursor:pointer;
+  font:inherit;
+  font-size:11px;
+  font-weight:800;
+  letter-spacing:.08em;
+  text-transform:uppercase;
+}
+.portraitVideoPlayOverlay::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  background:radial-gradient(circle at center,rgba(0,0,0,.03),rgba(0,0,0,.18));
+  pointer-events:none;
+}
+.portraitVideoPlayOverlay > *{
+  position:relative;
+  z-index:1;
+}
+.portraitVideoPlayIcon{
+  width:72px;
+  height:72px;
+  display:grid;
+  place-items:center;
+  padding-left:5px;
+  border:1px solid rgba(255,255,255,.65);
+  border-radius:50%;
+  background:rgba(2,18,42,.58);
+  backdrop-filter:blur(12px);
+  box-shadow:0 12px 34px rgba(0,0,0,.24);
+  font-size:23px;
+  transition:transform .2s ease,background .2s ease;
+}
+.portraitVideoPlayOverlay:hover .portraitVideoPlayIcon,
+.portraitVideoPlayOverlay:focus-visible .portraitVideoPlayIcon{
+  transform:scale(1.06);
+  background:rgba(2,18,42,.78);
+}
+.portraitVideoControls{
+  opacity:0;
+}
+.portraitVideoControls.isPlaying,
+.portraitVideoFrame:hover .portraitVideoControls,
+.portraitVideoFrame:focus-within .portraitVideoControls{
+  opacity:1;
+}
+
+@media (max-width:720px){
+  .portraitVideoPlayIcon{
+    width:66px;
+    height:66px;
+    font-size:21px;
+  }
+  .portraitVideoPlayOverlay{
+    font-size:10px;
+  }
+  .portraitVideoControls{
+    opacity:0;
+  }
+  .portraitVideoControls.isPlaying{
+    opacity:1;
+  }
+}

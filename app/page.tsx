@@ -6,6 +6,7 @@ import { safeUrl } from "@/lib/validation";
 import ContentNotice from "@/components/ContentNotice";
 import HeroProductRotator from "@/components/HeroProductRotator";
 import HomeStoryVideo from "@/components/HomeStoryVideo";
+import HomePortraitVideo from "@/components/HomePortraitVideo";
 export const dynamic = "force-dynamic";
 
 const processSteps = [
@@ -97,6 +98,13 @@ export default async function HomePage() {
           </div>
         </div>
       </section>
+
+      {safeUrl(settings.home_portrait_video_url) && <HomePortraitVideo
+        videoUrl={safeUrl(settings.home_portrait_video_url)}
+        title={settings.home_portrait_video_title || "SKYGOAT, CLOSER THAN EVER"}
+        description={settings.home_portrait_video_description || "Lihat SKYGOAT lebih dekat dalam format portrait yang otomatis berjalan saat bagian ini terlihat."}
+        posterUrl={safeUrl(settings.home_portrait_video_poster_url)}
+      />}
 
       <section className="section productSection" id="produk">
         <div className="shell">
