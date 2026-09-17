@@ -10,7 +10,7 @@ export const dynamic = "force-dynamic";
 const processSteps = [
   ["01", "Pemerahan Susu", "Pemerahan dilakukan di shelter di sekitar peternakan."],
   ["02", "Penyimpanan Steril", "Kebersihan dan suhu penyimpanan selalu diawasi."],
-  ["03", "Pasteurisasi & Evaporasi", "Tahap pengolahan susu cair menuju bentuk bubuk."],
+  ["03", "Spray Dryer", "Tahap pengolahan susu cair menuju bentuk bubuk."],
   ["04", "Proses Mixing", "Pencampuran bahan baku sesuai formulasi produk."],
   ["05", "Proses Packing", "Produk dikemas dalam sachet, packaging, dan box."]
 ];
@@ -29,7 +29,7 @@ const products = [
   {
     name: "Madu",
     image: "/products/madu.webp",
-    desc: "Varian madu dengan tambahan madu bubuk."
+    desc: "Varian madu dengan tambahan madu propolis bubuk."
   }
 ];
 
