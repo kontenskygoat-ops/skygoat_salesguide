@@ -5,6 +5,7 @@ import { resolveSettings } from "@/lib/official";
 import { safeUrl } from "@/lib/validation";
 import ContentNotice from "@/components/ContentNotice";
 import HeroProductRotator from "@/components/HeroProductRotator";
+import HomeStoryVideo from "@/components/HomeStoryVideo";
 export const dynamic = "force-dynamic";
 
 const processSteps = [
@@ -69,6 +70,13 @@ export default async function HomePage() {
           <div><strong>Customer Service</strong><span>Konsultasi produk dan kemitraan</span></div>
         </div>
       </section>
+
+      {safeUrl(settings.home_video_url) && <HomeStoryVideo
+        videoUrl={safeUrl(settings.home_video_url)}
+        title={settings.home_video_title || "THE STORY BEHIND SKYGOAT"}
+        description={settings.home_video_description || "Kenali perjalanan SKYGOAT lebih dekat melalui video."}
+        posterUrl={safeUrl(settings.home_video_poster_url)}
+      />}
 
       <section className="section introSection">
         <div className="shell introGrid">

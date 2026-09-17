@@ -1174,3 +1174,92 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
     font-size: 25px !important;
   }
 }
+
+/* =========================================================
+   HOMEPAGE STORY VIDEO
+   Click-to-play banner; large video is loaded only after play.
+   ========================================================= */
+.storyVideoSection{padding:42px 0 18px;background:#fff}
+.storyVideoBanner{position:relative;width:100%;min-height:0!important;aspect-ratio:21/8;overflow:hidden;border:0;border-radius:26px;padding:0;text-align:left;color:#fff;background:linear-gradient(125deg,#041a43 0%,#07558d 55%,#08a5d7 100%);box-shadow:0 22px 60px rgba(4,36,94,.15);isolation:isolate}
+.storyVideoPoster,.storyVideoFallback,.storyVideoShade{position:absolute;inset:0;width:100%;height:100%}
+.storyVideoPoster{object-fit:cover;z-index:-3}
+.storyVideoFallback{z-index:-3;background:radial-gradient(circle at 77% 36%,rgba(104,221,255,.54),transparent 24%),radial-gradient(circle at 17% 100%,rgba(0,175,226,.35),transparent 37%),linear-gradient(125deg,#03183f,#075d98 58%,#079ed1)}
+.storyVideoFallback::before{content:"SKYGOAT";position:absolute;right:5%;bottom:-12%;font-family:Oswald,Impact,sans-serif;font-size:clamp(90px,16vw,230px);font-weight:700;letter-spacing:-.04em;color:rgba(255,255,255,.07)}
+.storyVideoShade{z-index:-2;background:linear-gradient(90deg,rgba(2,19,47,.9) 0%,rgba(3,37,79,.62) 52%,rgba(3,37,79,.18) 100%)}
+.storyVideoCopy{position:absolute;left:clamp(28px,5vw,64px);top:50%;transform:translateY(-50%);width:min(58%,680px);z-index:2}
+.storyVideoCopy>span{font-size:10px;letter-spacing:.18em;font-weight:800;color:#8ceaff}
+.storyVideoCopy h2{font-size:clamp(36px,4.7vw,68px);margin:10px 0 8px;color:#fff;line-height:.98}
+.storyVideoCopy p{margin:0;color:#d7ebf6;max-width:560px;font-size:14px;line-height:1.65}
+.storyPlayButton{position:absolute;right:clamp(36px,8vw,110px);top:50%;transform:translateY(-50%);width:88px;height:88px;border-radius:50%;display:grid;place-items:center;background:#fff;color:var(--deep);box-shadow:0 14px 42px rgba(0,0,0,.24);z-index:3;transition:transform .2s ease,box-shadow .2s ease}
+.storyPlayButton span{font-size:25px;margin-left:4px}
+.storyPlayLabel{position:absolute;right:clamp(36px,8vw,110px);top:calc(50% + 62px);width:88px;text-align:center;font-size:9px;font-weight:800;letter-spacing:.13em;z-index:3}
+.storyVideoBanner:hover .storyPlayButton{transform:translateY(-50%) scale(1.06);box-shadow:0 18px 52px rgba(0,0,0,.3)}
+.storyVideoDialog{width:min(1100px,calc(100% - 28px));max-height:92dvh;border:0;border-radius:20px;padding:14px;background:#061733;color:#fff;box-shadow:0 30px 90px rgba(0,0,0,.45)}
+.storyVideoDialog::backdrop{background:rgba(0,8,25,.86);backdrop-filter:blur(5px)}
+.storyVideoDialogHead{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:4px 4px 12px}
+.storyVideoDialogHead span{font-size:9px;letter-spacing:.16em;color:#79d8fa;font-weight:800}
+.storyVideoDialogHead h3{font-size:20px;margin:4px 0 0}
+.storyVideoClose{width:42px;height:42px;min-height:42px!important;border-radius:50%;border:0;background:#fff;color:var(--deep);font-size:25px;line-height:1;flex:0 0 auto}
+.storyVideoPlayer{width:100%;aspect-ratio:16/9;border-radius:13px;overflow:hidden;background:#000;display:grid;place-items:center}
+.storyVideoPlayer video,.storyVideoPlayer iframe{width:100%;height:100%;border:0;background:#000}
+.storyVideoPlayer video{object-fit:contain}
+
+/* Homepage video CMS */
+.adminSettingsStack{display:grid;gap:24px;max-width:980px}
+.adminSettingsStack .settingsPanel{max-width:none}
+.homeVideoAdmin{max-width:980px}
+.homeVideoAdminHead{display:flex;justify-content:space-between;align-items:flex-start;gap:20px;margin-bottom:18px}
+.homeVideoAdminHead h2{margin:4px 0 8px}
+.adminEyebrow{display:block;font-size:10px;letter-spacing:.16em;font-weight:800;color:#176ca7}
+.adminVideoLink{font-size:12px;font-weight:800;color:#086b9e;white-space:nowrap;padding:10px 0}
+.videoDropzone{border:2px dashed #9bb6cb;border-radius:16px;padding:34px 22px;text-align:center;background:#f7fbfe;display:grid;place-items:center;gap:8px;transition:border-color .18s ease,background .18s ease,transform .18s ease;cursor:pointer}
+.videoDropzone:hover,.videoDropzone.dragging{border-color:#087eb5;background:#edf8fd;transform:translateY(-1px)}
+.videoDropIcon{width:48px;height:48px;border-radius:50%;display:grid;place-items:center;background:#e0f3fb;color:#086b9e;font-size:26px;font-weight:500}
+.videoDropzone strong{font-size:16px}
+.videoDropzone span{font-size:13px;color:var(--muted)}
+.videoDropzone small{font-size:11px;color:#728198}
+.keepOldVideo{display:flex!important;align-items:flex-start!important;gap:12px;margin:18px 0!important;padding:15px 16px;border:1px solid var(--line);border-radius:12px;background:#fff}
+.keepOldVideo input{margin-top:2px;flex:0 0 auto}
+.keepOldVideo span{display:grid;gap:4px}
+.keepOldVideo strong{font-size:13px}
+.keepOldVideo small{font-size:11px;color:var(--muted);line-height:1.55}
+.videoUploadBtn{margin-top:0!important}
+.adminHelpText{color:var(--muted);font-size:12px!important;line-height:1.65}
+.homeVideoMeta{margin-top:28px;padding-top:6px;border-top:1px solid var(--line)}
+.currentVideoInfo{display:flex;align-items:center;gap:10px;flex-wrap:wrap;margin-top:26px;padding:14px 16px;border-radius:12px;background:var(--soft)}
+.currentVideoInfo>span{font-size:9px;letter-spacing:.14em;font-weight:800;color:#176ca7}
+.currentVideoInfo>strong{font-size:13px;overflow-wrap:anywhere}
+.currentVideoInfo>small{font-size:11px;color:var(--muted);margin-left:auto}
+.videoArchive{margin-top:26px;border-top:1px solid var(--line);padding-top:22px}
+.videoArchiveHead{display:flex;align-items:center;justify-content:space-between;gap:14px}
+.videoArchiveHead h3{font-size:18px;margin:0}
+.videoArchiveHead span{font-size:11px;color:var(--muted)}
+.videoArchive article{display:flex;align-items:center;justify-content:space-between;gap:18px;padding:16px 0;border-bottom:1px solid var(--line)}
+.videoArchive article>div:first-child{display:grid;gap:4px;min-width:0}
+.videoArchive article strong{font-size:13px;overflow-wrap:anywhere}
+.videoArchive article span{font-size:11px;color:var(--muted)}
+.videoArchive .actionRow{flex-shrink:0}
+.videoArchive .actionRow button{margin:0}
+
+@media(max-width:720px){
+  .storyVideoSection{padding:24px 0 6px}
+  .storyVideoBanner{aspect-ratio:4/3;border-radius:18px}
+  .storyVideoShade{background:linear-gradient(180deg,rgba(2,19,47,.35),rgba(2,19,47,.88))}
+  .storyVideoCopy{left:22px;right:22px;top:auto;bottom:22px;transform:none;width:auto;padding-right:72px}
+  .storyVideoCopy h2{font-size:34px;margin:7px 0}
+  .storyVideoCopy p{font-size:12px;line-height:1.55;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+  .storyPlayButton{right:22px;top:24px;transform:none;width:58px;height:58px}
+  .storyVideoBanner:hover .storyPlayButton{transform:scale(1.04)}
+  .storyPlayButton span{font-size:18px}
+  .storyPlayLabel{display:none}
+  .storyVideoDialog{width:calc(100% - 18px);padding:9px;border-radius:15px}
+  .storyVideoDialogHead h3{font-size:16px}
+  .storyVideoPlayer{aspect-ratio:16/9}
+  .homeVideoAdminHead{display:block}
+  .adminVideoLink{display:inline-block}
+  .videoDropzone{padding:28px 14px}
+  .videoArchive article{align-items:flex-start;flex-direction:column}
+  .videoArchive .actionRow{width:100%}
+  .videoArchive .actionRow button{flex:1}
+  .currentVideoInfo>small{margin-left:0}
+}
