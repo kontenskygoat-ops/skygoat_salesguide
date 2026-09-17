@@ -1,26 +1,22 @@
-export function extractGoogleDriveFileId(url?: string | null) {
-  if (!url) return null;
-
-  const patterns = [
-    /\/file\/d\/([a-zA-Z0-9_-]+)/,
-    /[?&]id=([a-zA-Z0-9_-]+)/,
-    /\/d\/([a-zA-Z0-9_-]+)/
-  ];
-
-  for (const pattern of patterns) {
-    const match = url.match(pattern);
-    if (match?.[1]) return match[1];
-  }
-
+import { safeUrl } from "./validation";
+export function extractGoogleDriveFileId(value?: string | null) {
+  const safe = safeUrl(value);
+  if (!safe) return null;
+  const url = new URL(safe);
+  if (!["drive.google.com", "docs.google.com"].includes(url.hostname)) return null;
+  const id = url.pathname.match(/\/(?:file\/)?d\/([\w-]+)/)?.[1] ?? url.searchParams.get("id");
+  return id && /^[\w-]+$/.test(id) ? id : null;
+}
+export function videoSource(value?: string | null): { kind: "iframe" | "video"; url: string } | null {
+  const safe = safeUrl(value);
+  if (!safe) return null;
+  const id = extractGoogleDriveFileId(safe);
+  if (id) return { kind: "iframe", url: "https://drive.google.com/file/d/" + id + "/preview" };
+  const url = new URL(safe);
+  if (/\.(mp4|webm|ogg)$/i.test(url.pathname)) return { kind: "video", url: safe };
   return null;
 }
-
-export function googleDrivePreviewUrl(url?: string | null) {
-  const id = extractGoogleDriveFileId(url);
-  return id ? `https://drive.google.com/file/d/${id}/preview` : url ?? "";
-}
-
-export function googleDriveImageUrl(url?: string | null) {
-  const id = extractGoogleDriveFileId(url);
-  return id ? `https://drive.google.com/uc?export=view&id=${id}` : url ?? "";
+export function googleDriveImageUrl(value?: string | null) {
+  const id = extractGoogleDriveFileId(value);
+  return id ? "https://drive.google.com/thumbnail?id=" + id + "&sz=w1600" : safeUrl(value);
 }

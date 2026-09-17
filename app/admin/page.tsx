@@ -1,0 +1,3 @@
+import { requireAdmin } from "@/lib/requireAdmin";
+import AdminShell from "@/components/admin/AdminShell";
+export default async function Admin(){await requireAdmin();return <AdminShell><div className="adminTop"><span>SKYGOAT CMS</span><h1>Dashboard</h1><p>Kelola konten website tanpa harus edit source code.</p></div><div className="adminStats">{[["Sales Guide","Edit headline, CTA, dan section dinamis.","/admin/sales"],["Media & Mesin","Tambah foto dan link video Google Drive.","/admin/media"],["Site Settings","Kelola WhatsApp, Instagram, email, footer.","/admin/settings"]].map(x=><article key={x[0]}><h3>{x[0]}</h3><p>{x[1]}</p><a href={x[2]}>Kelola →</a></article>)}</div></AdminShell>}

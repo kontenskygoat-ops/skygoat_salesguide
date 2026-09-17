@@ -1,151 +1,105 @@
-# SKYGOAT Digital Sales Guide
+# SKYGOAT Digital Sales Guide + CMS
 
-Project Next.js untuk SKYGOAT dengan 2 halaman utama:
+Routes:
+- `/` Sales Guide
+- `/media` Media & Mesin
+- `/admin/login` Login CMS
+- `/admin` Dashboard
+- `/admin/media` CRUD media
+- `/admin/sales` Edit section dinamis
+- `/admin/settings` Pengaturan umum
 
-- `/` — Digital Sales Guide
-- `/media` — Media, video, dan mesin
-
-Stack:
-- Next.js / React / TypeScript
-- Supabase
-- Google Drive untuk video besar
-- Vercel untuk deployment
-- GitHub untuk source control
-
-## 1. Buka di VS Code
-
-Extract ZIP ini, lalu:
-
+## Local
 ```bash
-cd skygoat_salesguide_nextjs
 npm install
 npm run dev
 ```
 
-Buka:
-
-```text
-http://localhost:3000
+## Supabase
+1. Buat `.env.local` dari `.env.example`.
+2. Isi URL + anon key Supabase.
+3. Jalankan `supabase/schema.sql` di SQL Editor.
+4. Buat user admin: Authentication > Users > Add user.
+5. Copy User UID lalu jalankan:
+```sql
+insert into public.admin_users(user_id) values ('USER-UID');
 ```
+6. Login di `/admin/login`.
 
-## 2. Setup Supabase
+## Google Drive video
+Di `/admin/media`, masukkan share link Drive biasa ke `Video URL`.
+Website otomatis mengubahnya ke `/preview` saat diputar.
+Pastikan akses file: **Anyone with the link / Viewer**.
 
-Buka Supabase SQL Editor lalu jalankan:
+## Deploy Vercel
+Tambahkan environment variables yang sama seperti `.env.local` ke Vercel.
 
-```text
-supabase/schema.sql
-```
+Catatan: layout tetap di code. CMS dipakai untuk konten, media, link, dan setting supaya aman.
 
-Setelah itu buat file `.env.local` dari `.env.example`:
 
-```bash
-NEXT_PUBLIC_SUPABASE_URL=https://YOUR_PROJECT.supabase.co
-NEXT_PUBLIC_SUPABASE_ANON_KEY=YOUR_ANON_KEY
-```
+## Admin protection
 
-Restart dev server setelah `.env.local` berubah.
+Route `/admin`, `/admin/media`, `/admin/sales`, dan `/admin/settings` sekarang dilindungi oleh `middleware.ts`.
+Jika belum login atau user bukan anggota `admin_users`, browser otomatis diarahkan ke `/admin/login`.
 
-Jika env Supabase belum diisi, halaman `/media` tetap bisa dibuka menggunakan demo/fallback data.
+Link masuk admin dipindahkan dari header ke bagian paling bawah footer dan ditampilkan sebagai teks `Admin` tanpa highlight.
 
-## 3. Google Drive
 
-Untuk setiap file video:
+## Product asset update
 
-1. Upload ke Google Drive.
-2. General access → **Anyone with the link** → Viewer.
-3. Masukkan URL Drive biasa ke kolom `video_url` pada tabel `media_assets`.
+Official assets supplied by the user are stored in optimized WebP format:
 
-Contoh URL yang boleh disimpan:
+- `public/brand/skygoat-logo.webp`
+- `public/products/original.webp`
+- `public/products/cokelat.webp`
+- `public/products/madu.webp`
 
-```text
-https://drive.google.com/file/d/FILE_ID/view?usp=sharing
-```
+The originals were optimized for web use to reduce page weight while keeping transparent backgrounds.
 
-Website otomatis mengubahnya menjadi:
 
-```text
-https://drive.google.com/file/d/FILE_ID/preview
-```
+## Struktur halaman publik terbaru
 
-dan video diputar lewat modal di halaman `/media`.
+- `/` — Tentang SKYGOAT dan produk
+- `/sales-guide` — Digital Sales Guide
+- `/gallery` — Galeri foto/video
+- `/media` — redirect ke `/gallery`
+- `/admin` — CMS internal
 
-Untuk gambar Drive, isi `image_url`. Website mencoba mengubah URL menjadi format Google Drive `uc?export=view`.
+Versi ini memakai layout mobile-first yang lebih proporsional:
+- logo header lebih kecil
+- produk hero di-scale ulang
+- navigasi lebih ringkas
+- card menjadi 1 kolom di HP
+- CTA full-width di HP
+- typography dan spacing dikurangi di layar kecil
 
-**Saran:** video besar di Google Drive, tetapi thumbnail/foto yang sering tampil akan lebih stabil jika nanti dipindah ke Supabase Storage.
 
-## 4. Data Media
+## Mobile refinement
 
-Tabel:
+Tambahan optimasi untuk HP 360–430px:
+- header dibuat dua baris agar logo dan navigasi tidak berdesakan
+- hero dan product stage diperkecil
+- tombol full-width pada HP
+- fakta brand dan product card dipadatkan
+- Sales Guide diubah menjadi flow vertikal yang lebih mudah dibaca
+- filter galeri dibuat horizontal-scroll
+- galeri 1 kolom dengan rasio 16:9
+- modal video dan footer dirapikan untuk layar kecil
 
-```text
-media_assets
-```
 
-Field utama:
+## Logo pilihan terbaru
 
-- `title`
-- `slug`
-- `category`
-- `description`
-- `image_url`
-- `video_url`
-- `sort_order`
-- `is_active`
+Website sekarang memakai logo SKYGOAT pilihan terbaru dari `Logo clear.png`.
+Asset web disimpan sebagai:
 
-Kategori yang tersedia:
+`public/brand/skygoat-logo.webp`
 
-```text
-mesin
-produksi
-peternakan
-produk
-video
-```
+Ukuran tampilan logo juga diperkecil lagi agar lebih proporsional di desktop dan HP.
 
-## 5. Deploy Vercel
 
-1. Push project ke GitHub.
-2. Import repository di Vercel.
-3. Tambahkan dua environment variable Supabase.
-4. Deploy.
+## Hero product rotator
 
-## 6. Repository kamu
-
-Repository yang diberikan:
-
-```text
-https://github.com/kontenskygoat-ops/skygoat_salesguide.git
-```
-
-Saat project ini dibuat, repository tersebut masih kosong. Jadi file ZIP ini bisa dijadikan isi awal repo.
-
-Contoh:
-
-```bash
-git clone https://github.com/kontenskygoat-ops/skygoat_salesguide.git
-cd skygoat_salesguide
-```
-
-Copy seluruh isi ZIP project ke folder repo, lalu:
-
-```bash
-git add .
-git commit -m "Initial SKYGOAT digital sales guide"
-git push origin main
-```
-
-## 7. Asset yang perlu dikirim nanti
-
-Untuk versi final:
-- logo SKYGOAT resolusi tinggi / SVG
-- foto mesin Evaporasi
-- foto mesin Mixing
-- foto mesin Filling
-- foto peternakan
-- foto proses produksi
-- 3–4 video final
-- thumbnail video
-- testimoni yang boleh dipublikasikan
-- nomor WhatsApp / CTA jika diperlukan
-
-Asset produk sementara di project ini diambil dari PDF Panduan Sales SKYGOAT yang diberikan.
+Hero halaman utama sekarang menampilkan satu produk pada satu waktu.
+Varian Original, Cokelat, dan Madu berganti otomatis setiap 3,2 detik.
+User juga bisa memilih varian melalui indicator dot.
+Implementasi: `components/HeroProductRotator.tsx`.

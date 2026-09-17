@@ -1,105 +1,132 @@
 import Link from "next/link";
+import Image from "next/image";
+import { getSiteSettings } from "@/lib/data";
+import { resolveSettings } from "@/lib/official";
+import { safeUrl } from "@/lib/validation";
+import ContentNotice from "@/components/ContentNotice";
+import HeroProductRotator from "@/components/HeroProductRotator";
+export const dynamic = "force-dynamic";
 
 const processSteps = [
-  ["01", "Pemerahan Susu", "Pemerahan dilakukan di shelter sekitar peternakan."],
-  ["02", "Penyimpanan Steril", "Kebersihan dan suhu penyimpanan diawasi."],
-  ["03", "Pasteurisasi & Evaporasi", "Tahap pengolahan susu menuju bentuk bubuk."],
+  ["01", "Pemerahan Susu", "Pemerahan dilakukan di shelter di sekitar peternakan."],
+  ["02", "Penyimpanan Steril", "Kebersihan dan suhu penyimpanan selalu diawasi."],
+  ["03", "Pasteurisasi & Evaporasi", "Tahap pengolahan susu cair menuju bentuk bubuk."],
   ["04", "Proses Mixing", "Pencampuran bahan baku sesuai formulasi produk."],
-  ["05", "Proses Packing", "Pengemasan dalam sachet, packaging, dan box."]
+  ["05", "Proses Packing", "Produk dikemas dalam sachet, packaging, dan box."]
 ];
 
-const objections = [
-  ["“Susu kambing amis nggak?”", "Gunakan informasi resmi produk: aroma dan rasa segar, tidak amis, dan sesuai dengan varian rasa."],
-  ["“Sudah BPOM dan Halal?”", "Tunjukkan nomor izin BPOM masing-masing varian dan data ketetapan halal yang tersedia pada materi resmi."],
-  ["“Kenapa bentuk sachet?”", "Sachet membuat penyajian lebih praktis dan membantu menjaga produk yang belum digunakan tetap tertutup."],
-  ["“Apa bedanya dengan produk lain?”", "Fokus pada fakta SKYGOAT: diproduksi PT. Solusky, tersedia dalam beberapa varian, kemasan sachet, serta memiliki data legalitas produk. Hindari menjatuhkan merek lain."],
-  ["“Saya pikir-pikir dulu.”", "Jangan memaksa. Ringkas kebutuhan customer, tawarkan opsi sederhana, lalu lakukan follow-up secara wajar."]
+const products = [
+  {
+    name: "Original",
+    image: "/products/original.webp",
+    desc: "Varian original SKYGOAT dengan karakter rasa susu kambing Etawa."
+  },
+  {
+    name: "Cokelat",
+    image: "/products/cokelat.webp",
+    desc: "Varian cokelat dengan tambahan kakao bubuk."
+  },
+  {
+    name: "Madu",
+    image: "/products/madu.webp",
+    desc: "Varian madu dengan tambahan madu bubuk."
+  }
 ];
 
-export default function SalesGuidePage() {
+export default async function HomePage() {
+  const { data, error } = await getSiteSettings();
+  const settings = resolveSettings(data);
+  const whatsapp = safeUrl(settings.whatsapp_url);
   return (
     <main>
-      <section className="hero">
-        <div className="heroGlow" />
-        <div className="shell heroGrid">
-          <div>
-            <span className="kicker">SKYGOAT · DIGITAL SALES GUIDE</span>
-            <h1>
-              KNOW THE PRODUCT.
-              <br />
-              <em>SELL WITH CONFIDENCE.</em>
-            </h1>
+      {error && <div className="shell"><ContentNotice /></div>}
+      <section className="homeHero">
+        <div className="shell homeHeroGrid">
+          <div className="homeHeroCopy">
+            <span className="kicker">SKYGOAT · SUSU KAMBING ETAWA BUBUK</span>
+            <h1>Kenali SKYGOAT lebih dekat.</h1>
             <p>
-              Panduan digital untuk membantu sales, agen, dan reseller memahami SKYGOAT,
-              mengenali kebutuhan customer, menjawab pertanyaan, dan melakukan follow-up
-              dengan lebih terarah.
+              SKYGOAT adalah susu kambing Etawa bubuk yang diproduksi oleh PT. Solusky
+              di Daerah Istimewa Yogyakarta dan mulai dipasarkan sejak 2015.
             </p>
             <div className="heroButtons">
-              <a className="button primary" href="#start">Mulai Panduan</a>
-              <Link className="button outline" href="/media">Buka Media & Mesin</Link>
+              <a className="button primary" href="#produk">Lihat Produk</a>
+              <Link className="button outline" href="/sales-guide">Buka Sales Guide</Link>
+              {whatsapp && <a className="button white" href={whatsapp} target="_blank" rel="noopener noreferrer">Hubungi Customer Service</a>}
             </div>
           </div>
-
-          <div className="productVisual">
-            <img className="product p1" src="/products/cokelat.jpg" alt="SKYGOAT Cokelat" />
-            <img className="product p2" src="/products/madu.jpg" alt="SKYGOAT Madu" />
-            <img className="product p3" src="/products/original.jpg" alt="SKYGOAT Original" />
+          <div className="homeProductStage">
+            <HeroProductRotator />
           </div>
         </div>
       </section>
 
-      <section className="journey shell" id="start">
-        {[
-          ["01", "Know the Product"],
-          ["02", "Know Your Customer"],
-          ["03", "Build the Pitch"],
-          ["04", "Handle Objections"],
-          ["05", "Close & Follow Up"]
-        ].map(([n, t]) => (
-          <div key={n}><b>{n}</b><span>{t}</span></div>
-        ))}
+      <section className="brandStrip">
+        <div className="shell brandStripGrid">
+          <div><strong>2015</strong><span>Mulai dipasarkan</span></div>
+          <div><strong>3 Varian</strong><span>Original, Cokelat, Madu</span></div>
+          <div><strong>Yogyakarta</strong><span>Diproduksi PT. Solusky</span></div>
+          <div><strong>Customer Service</strong><span>Konsultasi produk dan kemitraan</span></div>
+        </div>
       </section>
 
-      <section className="section">
-        <div className="shell split">
+      <section className="section introSection">
+        <div className="shell introGrid">
           <div>
-            <span className="sectionLabel">01 / PRODUCT KNOWLEDGE</span>
-            <h2>Kenali SKYGOAT sebelum menjualnya.</h2>
-            <p className="lead">
-              SKYGOAT adalah susu kambing Etawa bubuk yang diproduksi oleh PT. Solusky
-              di Daerah Istimewa Yogyakarta. Produk mulai diproduksi dan dipasarkan sejak 2015
-              serta didistribusikan melalui sistem kemitraan distributor, agen, dan reseller.
-            </p>
-
-            <div className="statRow">
-              <div><strong>2015</strong><span>Mulai dipasarkan</span></div>
-              <div><strong>3</strong><span>Varian utama</span></div>
-              <div><strong>BPOM</strong><span>& Halal</span></div>
-            </div>
+            <span className="sectionLabel">TENTANG SKYGOAT</span>
+            <h2>Dari Yogyakarta, tumbuh melalui jaringan kemitraan.</h2>
           </div>
-
-          <div className="infoCard">
-            <span>PRODUCT STRUCTURE</span>
-            <h3>Informasi yang perlu dikuasai sales</h3>
-            <ul>
-              <li>Kemasan primer: aluminium foil</li>
-              <li>Kemasan sekunder: box kertas tebal</li>
-              <li>Tekstur produk: bubuk</li>
-              <li>Umur simpan pada panduan: 16 bulan</li>
-              <li>Produsen: PT. Solusky, Yogyakarta</li>
-            </ul>
+          <div className="introText">
+            {settings.home_intro ? <p className="preserveLines">{settings.home_intro}</p> : <>
+            <p>
+              SKYGOAT diproduksi dan dipasarkan sejak 2015. Distribusinya berkembang
+              melalui sistem kemitraan seperti distributor resmi, agen, dan reseller.
+            </p>
+            <p>
+              Format bubuk dan kemasan sachet membuat produk praktis untuk disajikan
+              serta mudah dibawa dan disimpan.
+            </p></>}
           </div>
         </div>
       </section>
 
-      <section className="darkSection section">
+      <section className="section productSection" id="produk">
         <div className="shell">
-          <span className="sectionLabel light">FROM FARM TO PACK</span>
-          <h2>Jelaskan prosesnya dengan sederhana.</h2>
+          <div className="sectionHead">
+            <div>
+              <span className="sectionLabel">PRODUK SKYGOAT</span>
+              <h2>Tiga pilihan varian.</h2>
+            </div>
+            <p>Pilih rasa sesuai preferensi customer atau kebutuhan konsumsi keluarga.</p>
+          </div>
+
+          <div className="productCards">
+            {products.map((product) => (
+              <article className="productCard" key={product.name}>
+                <div className="productCardImage">
+                  <Image src={product.image} alt={`SKYGOAT ${product.name}`} width={600} height={800} sizes="(max-width: 640px) 85vw, (max-width: 900px) 45vw, 340px" />
+                </div>
+                <div className="productCardBody">
+                  <span>SKYGOAT</span>
+                  <h3>{product.name}</h3>
+                  <p>{settings[product.name.toLowerCase() + "_description"] ?? product.desc}</p>
+                  <dl className="productDetails">{[["composition", "Komposisi"], ["pack", "Isi kemasan"], ["preparation", "Cara penyajian"], ["bpom", "Nomor BPOM"]].map(([key, label]) => settings[product.name.toLowerCase() + "_" + key] ? <div key={key}><dt>{label}</dt><dd>{settings[product.name.toLowerCase() + "_" + key]}</dd></div> : null)}</dl>
+                  {safeUrl(settings[product.name.toLowerCase() + "_document"]) && <a className="textButton" href={safeUrl(settings[product.name.toLowerCase() + "_document"])} target="_blank" rel="noopener noreferrer">Dokumen produk</a>}
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="section processSection">
+        <div className="shell">
+          <span className="sectionLabel light">PROSES PRODUKSI</span>
+          <h2>From farm to pack.</h2>
           <div className="processGrid">
-            {processSteps.map(([n, title, desc]) => (
-              <article key={n}>
-                <b>{n}</b>
+            {processSteps.map(([num, title, desc]) => (
+              <article key={num}>
+                <b>{num}</b>
                 <h3>{title}</h3>
                 <p>{desc}</p>
               </article>
@@ -108,134 +135,15 @@ export default function SalesGuidePage() {
         </div>
       </section>
 
-      <section className="section">
-        <div className="shell">
-          <span className="sectionLabel">02 / KNOW YOUR CUSTOMER</span>
-          <h2>Jangan langsung jual. Cari kebutuhannya dulu.</h2>
+      {(settings.halal_number || safeUrl(settings.halal_url)) && <section className="section qualitySection"><div className="shell"><span className="sectionLabel">LEGALITAS PRODUK</span><h2>Informasi halal</h2>{settings.halal_number && <p>Nomor sertifikat: {settings.halal_number}</p>}{safeUrl(settings.halal_url) && <a className="button primary" href={safeUrl(settings.halal_url)} target="_blank" rel="noopener noreferrer">Lihat dokumen resmi</a>}</div></section>}
 
-          <div className="personaGrid">
-            <article>
-              <b>01</b><h3>Keluarga</h3>
-              <p>Mencari produk praktis untuk konsumsi rumah tangga.</p>
-              <small>Masuk dari: kemudahan penyajian, sachet, dan pilihan rasa.</small>
-            </article>
-            <article>
-              <b>02</b><h3>First-time Buyer</h3>
-              <p>Belum pernah mencoba susu kambing atau ragu soal rasa.</p>
-              <small>Masuk dari: karakter rasa, pilihan varian, dan cara penyajian.</small>
-            </article>
-            <article>
-              <b>03</b><h3>Repeat Buyer</h3>
-              <p>Sudah familiar dan membutuhkan repeat order yang mudah.</p>
-              <small>Masuk dari: stok, ketersediaan varian, dan follow-up.</small>
-            </article>
-            <article>
-              <b>04</b><h3>Calon Mitra</h3>
-              <p>Tertarik menjadi agen atau reseller.</p>
-              <small>Masuk dari: produk, materi penjualan, dan sistem kemitraan.</small>
-            </article>
-          </div>
-        </div>
-      </section>
-
-      <section className="blueSection section">
-        <div className="shell">
-          <span className="sectionLabel light">03 / SALES FLOW</span>
-          <h2>Gunakan alur percakapan, bukan presentasi panjang.</h2>
-
-          <div className="salesFlow">
-            {[
-              ["OPEN", "Mulai dengan pertanyaan", "“Kak, sebelumnya pernah coba susu kambing atau baru pertama kali?”"],
-              ["PROBE", "Cari kebutuhan", "“Untuk konsumsi sendiri atau untuk keluarga di rumah?”"],
-              ["MATCH", "Hubungkan dengan produk", "Pilih informasi yang relevan: varian, sachet, rasa, legalitas, dan cara penyajian."],
-              ["PROOF", "Bangun kepercayaan", "Gunakan informasi legalitas, detail produk, dan dokumentasi yang memang bisa dibuktikan."],
-              ["CLOSE", "Buat pilihan mudah", "“Mau mulai dari satu varian dulu atau sekalian coba varian lain?”"]
-            ].map(([tag, title, text]) => (
-              <article key={tag}>
-                <span>{tag}</span>
-                <h3>{title}</h3>
-                <p>{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="section">
-        <div className="shell">
-          <span className="sectionLabel">04 / OBJECTION HANDLING</span>
-          <h2>Customer keberatan? Dengarkan dulu.</h2>
-
-          <div className="faq">
-            {objections.map(([q, a]) => (
-              <details key={q}>
-                <summary>{q}<span>+</span></summary>
-                <p>{a}</p>
-              </details>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="trust section">
-        <div className="shell trustGrid">
+      <section className="homeCta">
+        <div className="shell homeCtaInner">
           <div>
-            <span className="sectionLabel">PRODUCT TRUST</span>
-            <h2>Gunakan fakta yang bisa dibuktikan.</h2>
-            <p className="lead">
-              Data di bawah mengikuti panduan sales yang kamu berikan. Jika ada pembaruan izin,
-              ubah ke data resmi terbaru sebelum dipublikasikan.
-            </p>
+            <span>LANJUTKAN</span>
+            <h2>Pelajari cara menjual SKYGOAT.</h2>
           </div>
-          <div className="trustCards">
-            <div><b>BPOM</b><strong>Original</strong><span>MD 803112006005</span></div>
-            <div><b>BPOM</b><strong>Cokelat</strong><span>MD 803112008005</span></div>
-            <div><b>BPOM</b><strong>Madu</strong><span>MD 800912009005</span></div>
-            <div><b>HALAL</b><strong>LPPOM DIY</strong><span>12040001280622</span></div>
-          </div>
-        </div>
-      </section>
-
-      <section className="warning section">
-        <div className="shell narrow">
-          <span className="sectionLabel">IMPORTANT SALES NOTE</span>
-          <h2>Hindari klaim pengobatan yang tidak tercantum sebagai klaim resmi produk.</h2>
-          <p>
-            Gunakan informasi produk, komposisi, legalitas, cara konsumsi, dan informasi nutrisi
-            yang memang disetujui untuk komunikasi produk. Testimoni customer sebaiknya tidak
-            diubah menjadi klaim bahwa produk mengobati penyakit.
-          </p>
-        </div>
-      </section>
-
-      <section className="darkSection section">
-        <div className="shell closingGrid">
-          <div>
-            <span className="sectionLabel light">05 / CLOSE & FOLLOW UP</span>
-            <h2>Closing = membantu customer memilih.</h2>
-          </div>
-          <div className="scriptCard">
-            <span>CLOSING SCRIPT</span>
-            <p>
-              “Dari kebutuhan Kakak tadi, kita bisa mulai dari varian yang paling nyaman dulu.
-              Kakak mau coba satu box atau sekalian dua varian?”
-            </p>
-            <hr />
-            <span>FOLLOW-UP</span>
-            <p>
-              “Halo Kak, kemarin sempat tanya SKYGOAT. Ada yang masih ingin ditanyakan
-              soal varian atau cara penyajiannya?”
-            </p>
-          </div>
-        </div>
-      </section>
-
-      <section className="mediaCta">
-        <div className="shell">
-          <span>HALAMAN 02</span>
-          <h2>Butuh foto atau video produksi?</h2>
-          <p>Buka Media & Mesin untuk melihat dokumentasi yang ditarik dari Supabase dan Google Drive.</p>
-          <Link href="/media" className="button white">Buka Media & Mesin →</Link>
+          <Link className="button white" href="/sales-guide">Buka Sales Guide →</Link>
         </div>
       </section>
     </main>

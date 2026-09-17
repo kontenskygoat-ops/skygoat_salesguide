@@ -1,21 +1,19 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function Header() {
   return (
     <header className="siteHeader">
       <div className="shell navInner">
-        <Link href="/" className="logoLink">
-          <img src="/brand/skygoat-logo.png" alt="SKYGOAT" />
+        <Link href="/" className="brandLogo" aria-label="SKYGOAT">
+          <Image src="/brand/skygoat-logo.webp" alt="SKYGOAT" width={104} height={104} priority />
         </Link>
 
-        <nav className="mainNav" aria-label="Main navigation">
-          <Link href="/">Sales Guide</Link>
-          <Link href="/media">Media & Mesin</Link>
+        <nav className="mainNav" aria-label="Navigasi utama">
+          <Link href="/">Tentang SKYGOAT</Link>
+          <Link href="/sales-guide">Sales Guide</Link>
+          <Link href="/gallery">Galeri</Link>
         </nav>
-
-        <Link href="/#start" className="navButton">
-          Mulai Panduan
-        </Link>
       </div>
     </header>
   );

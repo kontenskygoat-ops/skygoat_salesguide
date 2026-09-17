@@ -9,3 +9,15 @@ export type MediaAsset = {
   sort_order: number;
   is_active: boolean;
 };
+
+export type SalesSection = {
+  id: string;
+  section_key: string;
+  title: string | null;
+  subtitle: string | null;
+  content: string | null;
+  button_text: string | null;
+  button_url: string | null;
+  sort_order: number;
+  is_active: boolean;
+};
