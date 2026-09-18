@@ -2,13 +2,16 @@
 
 import { useEffect, useId, useRef, useState } from "react";
 import { videoSource } from "@/lib/googleDrive";
+import type { PortraitSlot } from "@/lib/portraitVideos";
 
 export default function HomePortraitVideo({
+  slot,
   videoUrl,
   title,
   description,
   posterUrl,
 }: {
+  slot: PortraitSlot;
   videoUrl: string;
   title: string;
   description?: string;
@@ -22,9 +25,6 @@ export default function HomePortraitVideo({
   const [failed, setFailed] = useState(false);
   const source = videoSource(videoUrl);
 
-  // Video tidak autoplay. Jika pengguna sudah memutar lalu section
-  // benar-benar keluar dari layar, video dijeda supaya tidak terus
-  // bermain di background.
   useEffect(() => {
     const section = sectionRef.current;
     const video = videoRef.current;
@@ -44,8 +44,6 @@ export default function HomePortraitVideo({
     return () => observer.disconnect();
   }, [source?.kind, source?.url]);
 
-  if (!source) return null;
-
   function togglePlayback() {
     const video = videoRef.current;
     if (!video) return;
@@ -55,7 +53,10 @@ export default function HomePortraitVideo({
       if (video.error) video.load();
       void video.play()
         .then(() => setPlaying(true))
-        .catch(() => { setPlaying(false); setFailed(true); });
+        .catch(() => {
+          setPlaying(false);
+          setFailed(true);
+        });
     } else {
       video.pause();
       setPlaying(false);
@@ -70,16 +71,34 @@ export default function HomePortraitVideo({
     setMuted(next);
   }
 
+  const normalizedDescription =
+    description ===
+    "Lihat SKYGOAT lebih dekat dalam format portrait yang otomatis berjalan saat bagian ini terlihat."
+      ? "Tekan Play untuk melihat video SKYGOAT."
+      : description;
+
   return (
-    <article ref={sectionRef} className="portraitVideoCard" aria-labelledby={titleId}>
+    <article
+      ref={sectionRef}
+      className="portraitVideoCard"
+      aria-labelledby={titleId}
+      data-portrait-slot={slot}
+    >
       <div className="portraitVideoCardInner">
         <div className="portraitVideoCopy">
+          <span className="portraitSlotLabel">VIDEO {slot}</span>
           <h3 id={titleId}>{title}</h3>
-          {description && <p>{description === "Lihat SKYGOAT lebih dekat dalam format portrait yang otomatis berjalan saat bagian ini terlihat." ? "Tekan Play untuk melihat video SKYGOAT." : description}</p>}
+          {normalizedDescription && <p>{normalizedDescription}</p>}
         </div>
 
         <div className="portraitVideoFrame">
-          {source.kind === "video" ? (
+          {!videoUrl ? (
+            <div className="portraitVideoEmpty" role="status">
+              <span>VIDEO {slot}</span>
+              <strong>Belum ada video aktif</strong>
+              <small>Upload video portrait {slot} melalui CMS.</small>
+            </div>
+          ) : source?.kind === "video" ? (
             <>
               <video
                 ref={videoRef}
@@ -90,13 +109,18 @@ export default function HomePortraitVideo({
                 playsInline
                 preload="metadata"
                 onPlay={() => {
-                  document.querySelectorAll<HTMLVideoElement>(".portraitVideoCard video").forEach(video => {
-                    if (video !== videoRef.current) video.pause();
-                  });
+                  document
+                    .querySelectorAll<HTMLVideoElement>(".portraitVideoCard video")
+                    .forEach((video) => {
+                      if (video !== videoRef.current) video.pause();
+                    });
                   setPlaying(true);
                 }}
                 onPause={() => setPlaying(false)}
-                onError={() => { setFailed(true); setPlaying(false); }}
+                onError={() => {
+                  setFailed(true);
+                  setPlaying(false);
+                }}
                 aria-label={title}
               />
 
@@ -105,7 +129,7 @@ export default function HomePortraitVideo({
                   type="button"
                   className="portraitVideoPlayOverlay"
                   onClick={togglePlayback}
-                  aria-label="Putar video"
+                  aria-label={`Putar video portrait ${slot}`}
                 >
                   <span className="portraitVideoPlayIcon" aria-hidden="true">▶</span>
                   <span>{failed ? "Coba lagi" : "Play Video"}</span>
@@ -129,7 +153,7 @@ export default function HomePortraitVideo({
                 </button>
               </div>
             </>
-          ) : (
+          ) : source?.kind === "iframe" ? (
             <iframe
               src={source.url}
               title={title}
@@ -137,10 +161,27 @@ export default function HomePortraitVideo({
               referrerPolicy="no-referrer"
               allowFullScreen
             />
+          ) : (
+            <div className="portraitVideoEmpty portraitVideoInvalid" role="alert">
+              <span>VIDEO {slot}</span>
+              <strong>URL video tidak dapat dikenali</strong>
+              <small>Upload ulang video melalui CMS agar slot ini tidak hilang diam-diam.</small>
+              <a href={videoUrl} target="_blank" rel="noopener noreferrer">
+                Periksa file video ↗
+              </a>
+            </div>
           )}
           <div className="portraitVideoBadge">SKYGOAT</div>
         </div>
-        {failed && <p className="portraitVideoError" role="alert">Video belum dapat diputar. Coba lagi atau <a href={source.url} target="_blank" rel="noopener noreferrer">buka video langsung</a>.</p>}
+
+        {failed && source && (
+          <p className="portraitVideoError" role="alert">
+            Video belum dapat diputar. Coba lagi atau{" "}
+            <a href={source.url} target="_blank" rel="noopener noreferrer">
+              buka video langsung
+            </a>.
+          </p>
+        )}
       </div>
     </article>
   );

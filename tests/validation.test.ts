@@ -13,6 +13,7 @@ test('only recognizes real Drive hosts and supported video types', () => {
  assert.equal(extractGoogleDriveFileId('https://drive.google.com/file/d/abc_123/view'), 'abc_123');
  assert.equal(videoSource('https://evil.test/login'), null);
  assert.equal(videoSource('https://cdn.example.com/movie.mp4?token=abc')?.kind, 'video');
+ assert.equal(videoSource('https://abc.supabase.co/storage/v1/object/public/site-media/video-object')?.kind, 'video');
  assert.equal(videoSource('https://drive.google.com/file/d/abc/view')?.url, 'https://drive.google.com/file/d/abc/preview');
 });
 test('official contact bootstrap respects explicit removal after save', () => {

@@ -7,8 +7,7 @@ import ContentNotice from "@/components/ContentNotice";
 import HeroProductRotator from "@/components/HeroProductRotator";
 import HomeStoryVideo from "@/components/HomeStoryVideo";
 import HomePortraitVideo from "@/components/HomePortraitVideo";
-import { portraitSlots, portraitPrefix } from "@/lib/portraitVideos";
-import { videoSource } from "@/lib/googleDrive";
+import { getPortraitVideoConfigs } from "@/lib/portraitVideos";
 export const dynamic = "force-dynamic";
 
 const processSteps = [
@@ -46,16 +45,8 @@ export default async function HomePage() {
   const { data, error } = await getSiteSettings();
   const settings = resolveSettings(data);
   const whatsapp = safeUrl(settings.whatsapp_url);
-  const portraitVideos = portraitSlots.map(slot => {
-    const prefix = portraitPrefix(slot);
-    return {
-      slot,
-      videoUrl: safeUrl(settings[`${prefix}_url`]),
-      title: settings[`${prefix}_title`]?.trim() || `Video SKYGOAT ${slot}`,
-      description: settings[`${prefix}_description`] || "",
-      posterUrl: safeUrl(settings[`${prefix}_poster_url`]),
-    };
-  }).filter(video => videoSource(video.videoUrl));
+  const portraitVideos = getPortraitVideoConfigs(settings);
+  const hasPortraitVideo = portraitVideos.some((video) => Boolean(video.videoUrl));
   return (
     <main>
       {error && <div className="shell"><ContentNotice /></div>}
@@ -116,7 +107,7 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {portraitVideos.length > 0 && <section className="portraitCollection" aria-labelledby="portrait-collection-title">
+      {hasPortraitVideo && <section className="portraitCollection" aria-labelledby="portrait-collection-title">
         <div className="shell">
           <div className="portraitCollectionHead">
             <span className="sectionLabel">VIDEO SKYGOAT</span>

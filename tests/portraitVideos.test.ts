@@ -1,6 +1,7 @@
 import { test } from "node:test";
 import assert from "node:assert/strict";
 import {
+  getPortraitVideoConfigs,
   portraitPrefix,
   portraitSlots,
   readPortraitSlot,
@@ -53,4 +54,16 @@ test("portrait settings write to the selected database slot", () => {
     home_portrait_video_3_url: "replacement.mp4",
     home_portrait_video_3_archive: "[]",
   });
+});
+
+test("homepage config always returns all three portrait slots", () => {
+  const configs = getPortraitVideoConfigs({
+    home_portrait_video_url: "https://example.com/one.mp4",
+    home_portrait_video_2_url: "https://example.com/two.mp4",
+    home_portrait_video_3_url: "https://example.com/three.mp4",
+  });
+
+  assert.equal(configs.length, 3);
+  assert.deepEqual(configs.map((item) => item.slot), [1, 2, 3]);
+  assert.equal(configs[2].videoUrl, "https://example.com/three.mp4");
 });
