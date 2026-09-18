@@ -1,18 +1,8 @@
--- SKYGOAT homepage portrait videos: 3 independent click-to-play slots
--- Jalankan sekali setelah migration video landscape yang sebelumnya.
+-- SKYGOAT: tambah slot video portrait 2 dan 3.
+-- Slot 1 memakai key lama agar video yang sudah aktif tetap aman.
 -- Aman dijalankan ulang karena memakai ON CONFLICT DO NOTHING.
 
 insert into public.site_settings(setting_key, setting_value) values
-('home_portrait_video_url', ''),
-('home_portrait_video_storage_path', ''),
-('home_portrait_video_file_name', ''),
-('home_portrait_video_file_size', ''),
-('home_portrait_video_width', ''),
-('home_portrait_video_height', ''),
-('home_portrait_video_title', 'SKYGOAT, CLOSER THAN EVER'),
-('home_portrait_video_description', 'Tekan Play untuk melihat video SKYGOAT dalam format portrait.'),
-('home_portrait_video_poster_url', ''),
-('home_portrait_video_archive', '[]'),
 ('home_portrait_video_2_url', ''),
 ('home_portrait_video_2_storage_path', ''),
 ('home_portrait_video_2_file_name', ''),

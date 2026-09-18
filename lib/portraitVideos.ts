@@ -1,27 +1,47 @@
-export const portraitSlots = [1] as const;
-export type PortraitSlot = 1;
+export const portraitSlots = [1, 2, 3] as const;
+export type PortraitSlot = (typeof portraitSlots)[number];
 
-export function portraitPrefix(_slot: PortraitSlot = 1) {
-  return "home_portrait_video";
+const portraitSuffixes = [
+  "url",
+  "storage_path",
+  "file_name",
+  "file_size",
+  "width",
+  "height",
+  "title",
+  "description",
+  "poster_url",
+  "archive",
+] as const;
+
+export function portraitPrefix(slot: PortraitSlot) {
+  return slot === 1 ? "home_portrait_video" : `home_portrait_video_${slot}`;
 }
 
 export function readPortraitSlot(
   settings: Record<string, string>,
-  _slot: PortraitSlot = 1,
+  slot: PortraitSlot,
 ) {
-  const prefix = "home_portrait_video_";
-  return Object.fromEntries(
-    Object.entries(settings).filter(
-      ([key]) =>
-        key.startsWith(prefix) &&
-        !/^home_portrait_video_\d+_/.test(key),
-    ),
-  );
+  const prefix = portraitPrefix(slot);
+  const entries = portraitSuffixes.flatMap((suffix) => {
+    const storedKey = `${prefix}_${suffix}`;
+    const value = settings[storedKey];
+    if (value === undefined) return [];
+    return [[`home_portrait_video_${suffix}`, value] as const];
+  });
+  return Object.fromEntries(entries);
 }
 
 export function writePortraitSlot(
   values: Record<string, string>,
-  _slot: PortraitSlot = 1,
+  slot: PortraitSlot,
 ) {
-  return { ...values };
+  const prefix = portraitPrefix(slot);
+  const entries = portraitSuffixes.flatMap((suffix) => {
+    const localKey = `home_portrait_video_${suffix}`;
+    const value = values[localKey];
+    if (value === undefined) return [];
+    return [[`${prefix}_${suffix}`, value] as const];
+  });
+  return Object.fromEntries(entries);
 }

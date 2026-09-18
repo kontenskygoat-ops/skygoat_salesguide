@@ -87,3 +87,9 @@ npm run build
 - Error playback video landscape dan portrait memiliki fallback yang lebih jelas.
 - Kontras label kecil ditingkatkan.
 - Cache build, dependency lokal, audit screenshot, dan file sementara tidak termasuk repo.
+
+## Three portrait video slots
+
+Homepage now supports three independent portrait 9:16 videos. Slot 1 keeps the existing `home_portrait_video_*` settings so the current video is preserved. Slots 2 and 3 use `home_portrait_video_2_*` and `home_portrait_video_3_*`.
+
+For an existing Supabase project, run `supabase/portrait_three_slots_migration.sql` once. The CMS then shows separate Portrait 1, Portrait 2, and Portrait 3 panels, each with its own upload, metadata, replacement, and archive.

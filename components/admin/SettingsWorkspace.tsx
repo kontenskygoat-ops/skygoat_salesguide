@@ -4,6 +4,7 @@ import { useState } from "react";
 import HomeVideoAdmin from "./HomeVideoAdmin";
 import HomePortraitVideoAdmin from "./HomePortraitVideoAdmin";
 import SettingsAdmin from "./SettingsAdmin";
+import { portraitSlots } from "@/lib/portraitVideos";
 
 const categories = [
   ["video", "Video beranda"],
@@ -36,7 +37,7 @@ export default function SettingsWorkspace() {
         <div className="adminSectionIntro">
           <h2>Video di halaman beranda</h2>
           <p>
-            Kelola 1 video landscape dan 1 video portrait. Perubahan tampil
+            Kelola 1 video landscape dan 3 video portrait. Perubahan tampil
             setelah disimpan.
           </p>
         </div>
@@ -51,16 +52,18 @@ export default function SettingsWorkspace() {
             </summary>
             <HomeVideoAdmin />
           </details>
-          <details className="adminDisclosure">
-            <summary>
-              <span>
-                <strong>Video portrait</strong>
-                <small>Video tegak 9:16 dengan tombol Play</small>
-              </span>
-              <span className="disclosureIndicator" aria-hidden="true" />
-            </summary>
-            <HomePortraitVideoAdmin />
-          </details>
+          {portraitSlots.map((slot) => (
+            <details className="adminDisclosure" key={slot}>
+              <summary>
+                <span>
+                  <strong>Video portrait {slot}</strong>
+                  <small>Slot {slot} · video tegak 9:16 dengan tombol Play</small>
+                </span>
+                <span className="disclosureIndicator" aria-hidden="true" />
+              </summary>
+              <HomePortraitVideoAdmin slot={slot} />
+            </details>
+          ))}
         </div>
       </div>
       <div id="settings-products" hidden={active !== "products"}>

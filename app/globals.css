@@ -1322,7 +1322,7 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
 .portraitCollection{padding:34px 0 88px;background:var(--soft)}
 .portraitCollectionHead{max-width:760px;margin-bottom:32px}
 .portraitCollectionHead p{color:var(--muted)}
-.portraitCollectionGrid{display:grid;grid-template-columns:minmax(280px,380px);justify-content:center;gap:28px;align-items:start}
+.portraitCollectionGrid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px;align-items:start}
 .portraitVideoCard{min-width:0}
 .portraitVideoCardInner{display:flex;flex-direction:column;gap:18px}
 .portraitVideoCard .portraitVideoFrame{order:-1;width:100%;max-height:none;border-radius:20px;box-shadow:none}
@@ -1330,8 +1330,8 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
 .portraitVideoCard .portraitVideoCopy p{font-size:14px;overflow-wrap:anywhere}
 .portraitVideoError{margin:0;padding:12px;background:#fff;color:var(--ink);font-size:14px}
 .portraitVideoError a{text-decoration:underline}
-@media(max-width:900px){.portraitCollectionGrid{gap:18px}.portraitVideoCard .portraitVideoCopy h3{font-size:24px}}
-@media(max-width:720px){.portraitCollection{padding:32px 0 58px}.portraitCollectionGrid{grid-template-columns:1fr;gap:36px;max-width:380px;margin-inline:auto}}
+@media(max-width:1000px){.portraitCollectionGrid{gap:16px}.portraitVideoCard .portraitVideoCopy h3{font-size:24px}}
+@media(max-width:760px){.portraitCollection{padding:32px 0 58px}.portraitCollectionGrid{grid-template-columns:1fr;gap:36px;max-width:380px;margin-inline:auto}}
 .portraitVideoAdmin{border-top:4px solid #0d9fd3}
 .portraitDropzone{background:linear-gradient(135deg,#f8fbfd,#eef8fc)}
 .portraitDropIcon{width:58px;height:58px;border-radius:15px;font-size:12px;font-weight:900;letter-spacing:.05em}

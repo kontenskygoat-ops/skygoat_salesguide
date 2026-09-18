@@ -349,9 +349,9 @@ export default function HomePortraitVideoAdmin({
       <div className="homeVideoAdminHead">
         <div>
           <span className="adminEyebrow">VIDEO PORTRAIT</span>
-          <h2>Video Portrait</h2>
+          <h2>Video Portrait {slot}</h2>
           <p>
-            Kelola video portrait 9:16 untuk homepage. Pengunjung menekan
+            Kelola video portrait {slot} format 9:16 untuk homepage. Pengunjung menekan
             tombol Play untuk memutar video.
           </p>
         </div>
@@ -362,7 +362,7 @@ export default function HomePortraitVideoAdmin({
             target="_blank"
             rel="noopener noreferrer"
           >
-            Lihat video aktif ↗
+            Lihat video aktif {slot} ↗
           </a>
         )}
       </div>
@@ -422,7 +422,7 @@ export default function HomePortraitVideoAdmin({
                   fileInput.current?.click();
                 }
               }}
-              aria-label="Pilih file video portrait dari perangkat"
+              aria-label={`Pilih file video portrait ${slot} dari perangkat`}
             >
               <input
                 ref={fileInput}
@@ -466,7 +466,7 @@ export default function HomePortraitVideoAdmin({
               disabled={busy || !file}
               onClick={uploadVideo}
             >
-              {busy ? "Memproses..." : "Unggah & tampilkan video portrait"}
+              {busy ? "Memproses..." : `Unggah & tampilkan video portrait ${slot}`}
             </button>
             <p className="adminHelpText">
               Setelah file dipilih, tekan tombol unggah. Biarkan halaman terbuka
@@ -527,7 +527,7 @@ export default function HomePortraitVideoAdmin({
             <summary>Arsip video portrait ({archive.length})</summary>
             {!archive.length ? (
               <p className="adminHelpText">
-                Belum ada video portrait lama yang disimpan.
+                Belum ada video portrait lama yang disimpan pada slot ini.
               </p>
             ) : (
               archive.map((item) => (
