@@ -1,6 +1,12 @@
 node_modules
 .next
+.next-dev
 .env
 .env.local
 .vercel
 .DS_Store
+artifacts
+coverage
+playwright-report
+test-results
+*.tsbuildinfo

@@ -7,6 +7,8 @@ import ContentNotice from "@/components/ContentNotice";
 import HeroProductRotator from "@/components/HeroProductRotator";
 import HomeStoryVideo from "@/components/HomeStoryVideo";
 import HomePortraitVideo from "@/components/HomePortraitVideo";
+import { portraitSlots, portraitPrefix } from "@/lib/portraitVideos";
+import { videoSource } from "@/lib/googleDrive";
 export const dynamic = "force-dynamic";
 
 const processSteps = [
@@ -35,10 +37,25 @@ const products = [
   }
 ];
 
+function contentOrDefault(value: string | undefined, fallback: string) {
+  const text = value?.trim();
+  return text ? text : fallback;
+}
+
 export default async function HomePage() {
   const { data, error } = await getSiteSettings();
   const settings = resolveSettings(data);
   const whatsapp = safeUrl(settings.whatsapp_url);
+  const portraitVideos = portraitSlots.map(slot => {
+    const prefix = portraitPrefix(slot);
+    return {
+      slot,
+      videoUrl: safeUrl(settings[`${prefix}_url`]),
+      title: settings[`${prefix}_title`]?.trim() || `Video SKYGOAT ${slot}`,
+      description: settings[`${prefix}_description`] || "",
+      posterUrl: safeUrl(settings[`${prefix}_poster_url`]),
+    };
+  }).filter(video => videoSource(video.videoUrl));
   return (
     <main>
       {error && <div className="shell"><ContentNotice /></div>}
@@ -99,12 +116,18 @@ export default async function HomePage() {
         </div>
       </section>
 
-      {safeUrl(settings.home_portrait_video_url) && <HomePortraitVideo
-        videoUrl={safeUrl(settings.home_portrait_video_url)}
-        title={settings.home_portrait_video_title || "SKYGOAT, CLOSER THAN EVER"}
-        description={settings.home_portrait_video_description || "Lihat SKYGOAT lebih dekat dalam format portrait yang otomatis berjalan saat bagian ini terlihat."}
-        posterUrl={safeUrl(settings.home_portrait_video_poster_url)}
-      />}
+      {portraitVideos.length > 0 && <section className="portraitCollection" aria-labelledby="portrait-collection-title">
+        <div className="shell">
+          <div className="portraitCollectionHead">
+            <span className="sectionLabel">VIDEO SKYGOAT</span>
+            <h2 id="portrait-collection-title">Lihat SKYGOAT lebih dekat.</h2>
+            <p>Pilih video dan tekan Play untuk menonton.</p>
+          </div>
+          <div className="portraitCollectionGrid">
+            {portraitVideos.map(video => <HomePortraitVideo key={video.slot} {...video} />)}
+          </div>
+        </div>
+      </section>}
 
       <section className="section productSection" id="produk">
         <div className="shell">
@@ -125,7 +148,7 @@ export default async function HomePage() {
                 <div className="productCardBody">
                   <span>SKYGOAT</span>
                   <h3>{product.name}</h3>
-                  <p>{settings[product.name.toLowerCase() + "_description"] ?? product.desc}</p>
+                  <p>{contentOrDefault(settings[product.name.toLowerCase() + "_description"], product.desc)}</p>
                   <dl className="productDetails">{[["composition", "Komposisi"], ["pack", "Isi kemasan"], ["preparation", "Cara penyajian"], ["bpom", "Nomor BPOM"]].map(([key, label]) => settings[product.name.toLowerCase() + "_" + key] ? <div key={key}><dt>{label}</dt><dd>{settings[product.name.toLowerCase() + "_" + key]}</dd></div> : null)}</dl>
                   {safeUrl(settings[product.name.toLowerCase() + "_document"]) && <a className="textButton" href={safeUrl(settings[product.name.toLowerCase() + "_document"])} target="_blank" rel="noopener noreferrer">Dokumen produk</a>}
                 </div>

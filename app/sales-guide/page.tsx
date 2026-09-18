@@ -98,6 +98,7 @@ export default async function SalesGuidePage() {
               </details>
             ))}
           </div>
+          <SalesTools objections={objections} />
         </div>
       </section>
 
@@ -117,7 +118,7 @@ export default async function SalesGuidePage() {
         </div>
       </section>
 
-      <div className="shell"><SalesTools objections={objections} />{safeUrl(settings.sales_download_url) && <a className="button primary" href={safeUrl(settings.sales_download_url)} target="_blank" rel="noopener noreferrer">Buka materi sales</a>}</div>
+      {safeUrl(settings.sales_download_url) && <div className="shell salesDownload"><a className="button primary" href={safeUrl(settings.sales_download_url)} target="_blank" rel="noopener noreferrer">Buka materi sales</a></div>}
       {sections.filter(section => section.section_key !== "hero").map(section => <section className="section" key={section.id}>
         <div className="shell">
           {section.subtitle && <span className="sectionLabel">{section.subtitle}</span>}

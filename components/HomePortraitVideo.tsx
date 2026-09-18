@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useId, useRef, useState } from "react";
 import { videoSource } from "@/lib/googleDrive";
 
 export default function HomePortraitVideo({
@@ -15,9 +15,11 @@ export default function HomePortraitVideo({
   posterUrl?: string;
 }) {
   const videoRef = useRef<HTMLVideoElement>(null);
+  const titleId = useId();
   const sectionRef = useRef<HTMLElement>(null);
   const [playing, setPlaying] = useState(false);
   const [muted, setMuted] = useState(false);
+  const [failed, setFailed] = useState(false);
   const source = videoSource(videoUrl);
 
   // Video tidak autoplay. Jika pengguna sudah memutar lalu section
@@ -49,9 +51,11 @@ export default function HomePortraitVideo({
     if (!video) return;
 
     if (video.paused) {
+      setFailed(false);
+      if (video.error) video.load();
       void video.play()
         .then(() => setPlaying(true))
-        .catch(() => setPlaying(false));
+        .catch(() => { setPlaying(false); setFailed(true); });
     } else {
       video.pause();
       setPlaying(false);
@@ -67,17 +71,11 @@ export default function HomePortraitVideo({
   }
 
   return (
-    <section ref={sectionRef} className="portraitVideoSection" aria-labelledby="portrait-video-title">
-      <div className="shell portraitVideoGrid">
+    <article ref={sectionRef} className="portraitVideoCard" aria-labelledby={titleId}>
+      <div className="portraitVideoCardInner">
         <div className="portraitVideoCopy">
-          <span className="sectionLabel">SKYGOAT IN MOTION</span>
-          <h2 id="portrait-video-title">{title}</h2>
-          {description && <p>{description}</p>}
-          <div className="portraitVideoMeta">
-            <span>9:16 PORTRAIT</span>
-            <span>TAP TO PLAY</span>
-            <span>SOUND AVAILABLE</span>
-          </div>
+          <h3 id={titleId}>{title}</h3>
+          {description && <p>{description === "Lihat SKYGOAT lebih dekat dalam format portrait yang otomatis berjalan saat bagian ini terlihat." ? "Tekan Play untuk melihat video SKYGOAT." : description}</p>}
         </div>
 
         <div className="portraitVideoFrame">
@@ -91,8 +89,14 @@ export default function HomePortraitVideo({
                 loop
                 playsInline
                 preload="metadata"
-                onPlay={() => setPlaying(true)}
+                onPlay={() => {
+                  document.querySelectorAll<HTMLVideoElement>(".portraitVideoCard video").forEach(video => {
+                    if (video !== videoRef.current) video.pause();
+                  });
+                  setPlaying(true);
+                }}
                 onPause={() => setPlaying(false)}
+                onError={() => { setFailed(true); setPlaying(false); }}
                 aria-label={title}
               />
 
@@ -104,7 +108,7 @@ export default function HomePortraitVideo({
                   aria-label="Putar video"
                 >
                   <span className="portraitVideoPlayIcon" aria-hidden="true">▶</span>
-                  <span>Play Video</span>
+                  <span>{failed ? "Coba lagi" : "Play Video"}</span>
                 </button>
               )}
 
@@ -136,7 +140,8 @@ export default function HomePortraitVideo({
           )}
           <div className="portraitVideoBadge">SKYGOAT</div>
         </div>
+        {failed && <p className="portraitVideoError" role="alert">Video belum dapat diputar. Coba lagi atau <a href={source.url} target="_blank" rel="noopener noreferrer">buka video langsung</a>.</p>}
       </div>
-    </section>
+    </article>
   );
 }

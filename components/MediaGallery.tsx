@@ -34,7 +34,7 @@ export default function MediaGallery({ items }: { items: MediaAsset[] }) {
       </div>
     </article>)}</div>
     {active && <dialog ref={dialog} className="videoModal" aria-labelledby="media-dialog-title" onCancel={() => setActive(null)} onClick={e => { if (e.target === e.currentTarget) { const r = e.currentTarget.getBoundingClientRect(); if (e.clientX < r.left || e.clientX > r.right || e.clientY < r.top || e.clientY > r.bottom) setActive(null); } }}>
-      <button type="button" className="modalClose" aria-label="Tutup media" autoFocus onClick={() => setActive(null)}>?</button>
+      <button type="button" className="modalClose" aria-label="Tutup media" autoFocus onClick={() => setActive(null)}>×</button>
       <h3 id="media-dialog-title">{active.item.title}</h3>
       {active.mode === "image" ? <div className="photoPreview"><MediaImage url={active.item.image_url ?? ""} title={active.item.title} /></div> : source && <div className="ratio169">{source.kind === "video" ? <video src={source.url} controls playsInline /> : <iframe src={source.url} title={active.item.title} allow="fullscreen" referrerPolicy="no-referrer" allowFullScreen />}</div>}
       <p>Jika media tidak dapat dimuat, <a href={source?.url ?? googleDriveImageUrl(active.item.image_url)} target="_blank" rel="noopener noreferrer">buka sumber media</a>.</p>

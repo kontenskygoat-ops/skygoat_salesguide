@@ -3,6 +3,7 @@
   --deep:#05245e;
   --deep2:#03183f;
   --blue:#0799d4;
+  --blueText:#0a5f91;
   --cyan:#62d2f4;
   --yellow:#ffd128;
   --ink:#10223d;
@@ -22,7 +23,7 @@ button{font:inherit}
 h1,h2{font-family:Oswald,Impact,sans-serif;letter-spacing:-.02em}
 h2{font-size:clamp(38px,5vw,68px);line-height:1.02;margin:14px 0 24px}
 p{line-height:1.75}
-.kicker,.sectionLabel{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;color:#197bb8}
+.kicker,.sectionLabel{display:inline-block;font-size:11px;font-weight:800;letter-spacing:.16em;color:var(--blueText)}
 .light{color:#fff!important}
 
 .siteHeader{position:sticky;top:0;z-index:100;background:rgba(3,24,63,.96);border-bottom:1px solid rgba(255,255,255,.08)}
@@ -39,6 +40,8 @@ p{line-height:1.75}
 .button.white{background:#fff;color:var(--deep)}
 
 .homeHero{background:radial-gradient(circle at 82% 42%,#0b78b8 0,#063673 30%,var(--deep2) 72%);color:#fff;overflow:hidden}
+.homeHero .kicker,.salesHero .kicker{color:#9ee7ff}
+#produk,#flow{scroll-margin-top:84px}
 .homeHeroGrid{min-height:680px;display:grid;grid-template-columns:1.08fr .92fr;gap:64px;align-items:center}
 .homeHeroCopy h1{font-size:clamp(58px,7.5vw,104px);line-height:.92;margin:18px 0}
 .homeHeroCopy p{max-width:650px;color:#cbdbef;font-size:17px}
@@ -68,7 +71,7 @@ p{line-height:1.75}
 .productCardImage{height:330px;display:grid;place-items:center;padding:28px;background:linear-gradient(180deg,#f8fbfd,#edf5fa)}
 .productCardImage img{width:100%;height:100%;object-fit:contain}
 .productCardBody{padding:24px}
-.productCardBody>span{font-size:10px;letter-spacing:.14em;color:var(--blue);font-weight:800}
+.productCardBody>span{font-size:10px;letter-spacing:.14em;color:var(--blueText);font-weight:800}
 .productCardBody h3{font-size:26px;margin:7px 0 8px}
 .productCardBody p{font-size:13px;color:var(--muted);margin:0}
 
@@ -99,12 +102,12 @@ p{line-height:1.75}
 .salesJourney{display:grid;grid-template-columns:repeat(5,1fr);margin-top:-38px;background:#fff;border-radius:18px;box-shadow:0 18px 60px rgba(21,49,78,.14);overflow:hidden;position:relative}
 .salesJourney div{padding:22px;border-right:1px solid var(--line);display:flex;flex-direction:column;gap:8px}
 .salesJourney div:last-child{border-right:0}
-.salesJourney b{font-size:11px;color:var(--blue)}
+.salesJourney b{font-size:11px;color:var(--blueText)}
 .salesJourney span{font-size:12px;font-weight:800}
 
 .personaGrid{display:grid;grid-template-columns:repeat(4,1fr);gap:16px;margin-top:36px}
 .personaGrid article{background:var(--soft);border-radius:18px;padding:24px;min-height:230px}
-.personaGrid b{color:var(--blue);font-size:11px}
+.personaGrid b{color:var(--blueText);font-size:11px}
 .personaGrid h3{font-size:19px}
 .personaGrid p{font-size:13px;color:var(--muted)}
 .personaGrid small{display:block;margin-top:20px;line-height:1.6;font-weight:700}
@@ -155,7 +158,7 @@ p{line-height:1.75}
 .textButton{border:0;background:none;padding:0;font-weight:800;color:var(--deep);cursor:pointer}
 .modalBackdrop{position:fixed;z-index:200;inset:0;background:rgba(0,0,0,.82);display:flex;align-items:center;justify-content:center;padding:18px}
 .videoModal{width:min(900px,100%);background:#071b3e;color:white;padding:12px;border-radius:18px;position:relative}
-.modalClose{position:absolute;z-index:4;right:18px;top:18px;width:36px;height:36px;border-radius:50%;border:0;background:#fff;font-size:22px;cursor:pointer}
+.modalClose{position:absolute;z-index:4;right:18px;top:18px;width:44px;height:44px;border-radius:50%;border:0;background:#fff;font-size:24px;cursor:pointer}
 .ratio169{aspect-ratio:16/9;background:#000;border-radius:11px;overflow:hidden}
 .ratio169 iframe{width:100%;height:100%;border:0}
 .videoModal h3{padding:0 8px}
@@ -233,6 +236,10 @@ p{line-height:1.75}
 @media (max-width: 720px) {
   body {
     overflow-x: hidden;
+  }
+
+  #produk,#flow{
+    scroll-margin-top:138px;
   }
 
   .shell {
@@ -753,11 +760,11 @@ p{line-height:1.75}
   }
 
   .modalClose {
-    width: 34px;
-    height: 34px;
+    width: 44px;
+    height: 44px;
     right: 12px;
     top: 12px;
-    font-size: 20px;
+    font-size: 24px;
   }
 
   .ratio169 {
@@ -888,7 +895,7 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
 .videoModal{border:0;max-height:90dvh;overflow:auto;margin:auto;position:fixed;color:white}
 .videoModal::backdrop{background:rgba(0,0,0,.82)}.videoModal h3{padding-right:50px}.videoModal>p{font-size:14px;padding:8px}.videoModal a{text-decoration:underline}
 .ratio169 video{width:100%;height:100%;object-fit:contain}.photoPreview img{max-height:65dvh;width:100%;object-fit:contain}.photoPreview .mediaPlaceholder{min-height:250px}
-.salesTools{padding:40px 0}.salesTools input{display:block;width:100%;max-width:680px;padding:14px;border:1px solid #a8b7c9;border-radius:10px;font:inherit;margin-top:8px}.salesTools article{padding:24px 0;border-bottom:1px solid var(--line)}.salesTools h2{font-size:40px}
+.salesTools{padding:34px 0 10px}.salesTools input{display:block;width:100%;max-width:680px;padding:14px;border:1px solid #a8b7c9;border-radius:10px;font:inherit;margin-top:8px}.salesTools article{padding:20px 0;border-bottom:1px solid var(--line);max-width:760px}.salesTools h3{font-family:Oswald,Impact,sans-serif;font-size:34px;margin:0 0 14px}.salesTools h4{font-size:17px;margin:0 0 8px}.salesToolsHint{color:var(--muted);margin-top:8px}.salesDownload{padding:0 0 72px}
 .adminLayout{display:grid;grid-template-columns:240px minmax(0,1fr);max-width:1500px;margin:auto;min-height:70vh;background:var(--soft)}
 .adminSidebar{background:var(--deep2);padding:32px 20px;color:white}.adminBrand{font-size:24px;font-weight:800;margin-bottom:30px}.adminBrand span{font-size:12px;color:var(--cyan)}
 .adminSidebar nav{display:grid;gap:8px;margin-bottom:24px}.adminSidebar a{display:block;padding:12px;border-radius:8px}.adminSidebar a.active{background:#0b5185;color:white}.adminSidebar a:hover{background:#123e6d}.adminSidebar button{margin:16px 0;border:1px solid #8aa8c8;color:white;background:transparent;border-radius:8px;padding:10px 20px}
@@ -903,7 +910,7 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
 @media(max-width:1100px){.adminTwoCol,.adminStats{grid-template-columns:1fr}.adminMain{padding:24px}}
 @media(max-width:720px){
   .adminLayout{grid-template-columns:1fr}.adminSidebar{padding:20px}.adminSidebar nav{grid-template-columns:1fr 1fr;margin-bottom:8px}.adminBrand{margin-bottom:16px}.adminSidebar>a,.adminSidebar>button{display:inline-block;margin:8px}.adminMain{padding:20px 16px}.adminPanel{padding:20px}.adminTop h1{font-size:36px}.adminForm input,.adminForm select,.adminForm textarea{font-size:16px!important}
-  .mainNav{font-size:12px}.mainNav a{padding:12px 5px}.kicker,.sectionLabel{font-size:11px}.brandStripGrid span,.footerBrand p,.footerNav a,.footerBottom,.footerAdminLink{font-size:12px}.productCardBody p,.processGrid p,.salesFlow p,.personaGrid p,.personaGrid small,.mediaBody p,.scriptCard p,.warningNote p{font-size:14px;line-height:1.7}.filterButton,.textButton{font-size:13px;min-height:44px}.contentNotice{align-items:flex-start;flex-direction:column}.salesTools h2{font-size:32px}.footerBottom{color:#a8bdd7}
+  .mainNav{font-size:12px}.mainNav a{padding:12px 5px}.kicker,.sectionLabel{font-size:11px}.brandStripGrid span,.footerBrand p,.footerNav a,.footerBottom,.footerAdminLink{font-size:12px}.productCardBody p,.processGrid p,.salesFlow p,.personaGrid p,.personaGrid small,.mediaBody p,.scriptCard p,.warningNote p{font-size:14px;line-height:1.7}.filterButton,.textButton{font-size:13px;min-height:44px}.contentNotice{align-items:flex-start;flex-direction:column}.salesTools h3{font-size:30px}.footerBottom{color:#a8bdd7}
 }
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}*{animation:none!important;transition:none!important}}
 
@@ -967,32 +974,67 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
   font-weight:800;
 }
 
+.heroProductControls{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  min-height:44px;
+}
+
 .heroProductDots{
   display:flex;
   align-items:center;
   justify-content:center;
-  gap:7px;
-  min-height:20px;
+  gap:0;
+  min-height:44px;
 }
 
 .heroProductDot{
-  width:8px;
-  height:8px;
-  min-height:8px !important;
+  position:relative;
+  width:44px;
+  height:44px;
+  min-height:44px !important;
   padding:0;
   border:0;
   border-radius:999px;
-  background:rgba(255,255,255,.32);
-  transition:width .25s ease, background .25s ease, transform .25s ease;
+  background:transparent;
+  cursor:pointer;
 }
 
-.heroProductDot:hover{
-  background:rgba(255,255,255,.62);
+.heroProductDot::before{
+  content:"";
+  position:absolute;
+  left:50%;
+  top:50%;
+  width:8px;
+  height:8px;
+  transform:translate(-50%,-50%);
+  border-radius:999px;
+  background:rgba(255,255,255,.42);
+  transition:width .25s ease,background .25s ease,transform .25s ease;
 }
 
-.heroProductDot.active{
+.heroProductDot:hover::before,
+.heroProductDot:focus-visible::before{
+  background:rgba(255,255,255,.78);
+}
+
+.heroProductDot.active::before{
   width:24px;
   background:var(--yellow);
+}
+
+.heroProductToggle{
+  min-height:44px;
+  padding:0 12px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  background:rgba(3,24,63,.38);
+  color:#fff;
+  font-size:10px;
+  font-weight:800;
+  cursor:pointer;
 }
 
 @keyframes heroProductEnter{
@@ -1265,35 +1307,38 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
 }
 
 /* =========================================================
-   HOMEPAGE PORTRAIT VIDEO — autoplay on scroll
+   HOMEPAGE PORTRAIT VIDEO — click to play
    ========================================================= */
-.portraitVideoSection{padding:34px 0 88px;background:linear-gradient(180deg,#fff 0%,#f4f9fc 100%);overflow:hidden}
-.portraitVideoGrid{display:grid;grid-template-columns:minmax(0,1fr) minmax(300px,410px);gap:clamp(44px,8vw,110px);align-items:center;max-width:1050px}
 .portraitVideoCopy{max-width:560px}
-.portraitVideoCopy h2{font-size:clamp(42px,5.5vw,76px);line-height:.98;margin:12px 0 20px;letter-spacing:-.035em;color:var(--deep)}
 .portraitVideoCopy p{font-size:16px;line-height:1.8;color:var(--muted);max-width:520px;margin:0}
-.portraitVideoMeta{display:flex;flex-wrap:wrap;gap:8px;margin-top:28px}
-.portraitVideoMeta span{display:inline-flex;align-items:center;min-height:30px;padding:0 10px;border:1px solid #cfe1eb;border-radius:999px;background:#fff;color:#386278;font-size:9px;font-weight:800;letter-spacing:.11em}
 .portraitVideoFrame{position:relative;width:min(100%,380px);aspect-ratio:9/16;justify-self:center;border-radius:30px;overflow:hidden;background:#031833;box-shadow:0 30px 80px rgba(3,40,74,.23);isolation:isolate}
 .portraitVideoFrame::before{content:"";position:absolute;inset:0;border:1px solid rgba(255,255,255,.18);border-radius:inherit;pointer-events:none;z-index:4}
 .portraitVideoFrame video,.portraitVideoFrame iframe{display:block;width:100%;height:100%;object-fit:cover;border:0;background:#000}
 .portraitVideoControls{position:absolute;left:16px;right:16px;bottom:16px;display:flex;justify-content:space-between;align-items:center;gap:10px;z-index:5;opacity:.2;transition:opacity .2s ease}
 .portraitVideoFrame:hover .portraitVideoControls,.portraitVideoFrame:focus-within .portraitVideoControls{opacity:1}
-.portraitVideoControls button{min-height:38px!important;border:0;border-radius:999px;padding:0 13px;background:rgba(2,18,42,.78);backdrop-filter:blur(10px);color:#fff;font-size:10px;font-weight:800;letter-spacing:.05em}
-.portraitVideoControls button:first-child{width:38px;padding:0;display:grid;place-items:center;font-size:13px}
+.portraitVideoControls button{min-height:44px!important;border:0;border-radius:999px;padding:0 13px;background:rgba(2,18,42,.92);color:#fff;font-size:12px;font-weight:800}
+.portraitVideoControls button:first-child{width:44px;padding:0;display:grid;place-items:center;font-size:13px}
 .portraitVideoBadge{position:absolute;left:17px;top:17px;z-index:3;padding:8px 10px;border-radius:999px;background:rgba(2,18,42,.7);backdrop-filter:blur(8px);color:#fff;font-size:9px;font-weight:800;letter-spacing:.15em}
+.portraitCollection{padding:34px 0 88px;background:var(--soft)}
+.portraitCollectionHead{max-width:760px;margin-bottom:32px}
+.portraitCollectionHead p{color:var(--muted)}
+.portraitCollectionGrid{display:grid;grid-template-columns:minmax(280px,380px);justify-content:center;gap:28px;align-items:start}
+.portraitVideoCard{min-width:0}
+.portraitVideoCardInner{display:flex;flex-direction:column;gap:18px}
+.portraitVideoCard .portraitVideoFrame{order:-1;width:100%;max-height:none;border-radius:20px;box-shadow:none}
+.portraitVideoCard .portraitVideoCopy h3{font-family:Oswald,Impact,sans-serif;font-size:28px;line-height:1.2;margin:0 0 10px;overflow-wrap:anywhere}
+.portraitVideoCard .portraitVideoCopy p{font-size:14px;overflow-wrap:anywhere}
+.portraitVideoError{margin:0;padding:12px;background:#fff;color:var(--ink);font-size:14px}
+.portraitVideoError a{text-decoration:underline}
+@media(max-width:900px){.portraitCollectionGrid{gap:18px}.portraitVideoCard .portraitVideoCopy h3{font-size:24px}}
+@media(max-width:720px){.portraitCollection{padding:32px 0 58px}.portraitCollectionGrid{grid-template-columns:1fr;gap:36px;max-width:380px;margin-inline:auto}}
 .portraitVideoAdmin{border-top:4px solid #0d9fd3}
 .portraitDropzone{background:linear-gradient(135deg,#f8fbfd,#eef8fc)}
 .portraitDropIcon{width:58px;height:58px;border-radius:15px;font-size:12px;font-weight:900;letter-spacing:.05em}
 
 @media(max-width:720px){
-  .portraitVideoSection{padding:28px 0 58px}
-  .portraitVideoGrid{grid-template-columns:1fr;gap:28px}
   .portraitVideoCopy{text-align:left}
-  .portraitVideoCopy h2{font-size:40px;margin:9px 0 14px}
   .portraitVideoCopy p{font-size:14px;line-height:1.7}
-  .portraitVideoMeta{margin-top:18px;gap:6px}
-  .portraitVideoMeta span{font-size:8px;min-height:27px;padding:0 8px}
   .portraitVideoFrame{width:min(100%,360px);max-height:76dvh;border-radius:24px}
   .portraitVideoControls{opacity:1;left:12px;right:12px;bottom:12px}
 }
@@ -1373,4 +1418,31 @@ fieldset{border:0;padding:0;margin:0;min-width:0}
   .portraitVideoControls.isPlaying{
     opacity:1;
   }
+}
+
+.storyVideoError{
+  min-height:260px;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:center;
+  gap:8px;
+  padding:32px;
+  text-align:center;
+  background:#061b3f;
+  color:#fff;
+}
+.storyVideoError p{margin:0;color:#cbdff0}
+.storyVideoError .actionRow{margin-top:10px;display:flex;gap:10px;justify-content:center}
+.storyVideoError button,.storyVideoError a{
+  min-height:44px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
+  padding:0 16px;
+  border:1px solid rgba(255,255,255,.28);
+  border-radius:999px;
+  background:#fff;
+  color:var(--deep);
+  font-weight:800;
 }

@@ -1,17 +1,17 @@
 import { requireAdmin } from "@/lib/requireAdmin";
 import AdminShell from "@/components/admin/AdminShell";
-import SettingsAdmin from "@/components/admin/SettingsAdmin";
-import HomeVideoAdmin from "@/components/admin/HomeVideoAdmin";
-import HomePortraitVideoAdmin from "@/components/admin/HomePortraitVideoAdmin";
+import SettingsWorkspace from "@/components/admin/SettingsWorkspace";
 
 export default async function Page() {
   await requireAdmin();
-  return <AdminShell>
-    <div className="adminTop"><span>CONFIGURATION</span><h1>Site Settings</h1><p>Pengaturan umum website SKYGOAT, produk, kontak, dan video homepage.</p></div>
-    <div className="adminSettingsStack">
-      <HomeVideoAdmin />
-      <HomePortraitVideoAdmin />
-      <SettingsAdmin />
-    </div>
-  </AdminShell>;
+  return (
+    <AdminShell>
+      <div className="adminTop">
+        <span>KELOLA WEBSITE</span>
+        <h1>Pengaturan</h1>
+        <p>Perbarui video, informasi produk, dan kontak SKYGOAT.</p>
+      </div>
+      <SettingsWorkspace />
+    </AdminShell>
+  );
 }

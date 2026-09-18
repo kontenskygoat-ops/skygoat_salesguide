@@ -1,105 +1,89 @@
 # SKYGOAT Digital Sales Guide + CMS
 
-Routes:
-- `/` Sales Guide
-- `/media` Media & Mesin
-- `/admin/login` Login CMS
-- `/admin` Dashboard
-- `/admin/media` CRUD media
-- `/admin/sales` Edit section dinamis
-- `/admin/settings` Pengaturan umum
+Website publik dan CMS internal SKYGOAT berbasis Next.js, Supabase Auth/Database/Storage, dan Vercel.
 
-## Local
+## Halaman publik
+
+- `/` — Tentang SKYGOAT, video landscape, video portrait, produk, proses, dan legalitas.
+- `/sales-guide` — Digital Sales Guide.
+- `/gallery` — Galeri foto/video.
+- `/media` — redirect ke `/gallery`.
+
+## CMS
+
+- `/admin/login` — Login admin.
+- `/admin` — Dashboard.
+- `/admin/media` — Kelola galeri.
+- `/admin/sales` — Kelola section sales.
+- `/admin/settings` — Produk, kontak, video landscape, dan video portrait.
+
+CMS homepage saat ini sengaja memakai **2 video total**:
+1. **Landscape story video** — tampil sebagai banner dan baru diputar setelah tombol Play ditekan.
+2. **Portrait 9:16** — tampil setelah bagian Tentang SKYGOAT, juga memakai tombol Play.
+
+Upload video menggunakan Supabase Storage bucket `site-media`, maksimal 50 MB per file. Saat mengganti video, file lama dihapus secara default. Centang opsi simpan video lama untuk memasukkannya ke arsip sebelum upload pengganti.
+
+## Setup lokal
+
 ```bash
 npm install
 npm run dev
 ```
 
-## Supabase
-1. Buat `.env.local` dari `.env.example`.
-2. Isi URL + anon key Supabase.
-3. Jalankan `supabase/schema.sql` di SQL Editor.
-4. Buat user admin: Authentication > Users > Add user.
-5. Copy User UID lalu jalankan:
-```sql
-insert into public.admin_users(user_id) values ('USER-UID');
-```
-6. Login di `/admin/login`.
+Buat `.env.local` dari `.env.example` dan isi:
 
-## Google Drive video
-Di `/admin/media`, masukkan share link Drive biasa ke `Video URL`.
-Website otomatis mengubahnya ke `/preview` saat diputar.
-Pastikan akses file: **Anyone with the link / Viewer**.
+```env
+NEXT_PUBLIC_SUPABASE_URL=
+NEXT_PUBLIC_SUPABASE_ANON_KEY=
+```
+
+`.env.local` tidak boleh di-commit.
+
+## Supabase
+
+Instalasi baru:
+1. Jalankan `supabase/schema.sql`.
+2. Buat user di Supabase Authentication.
+3. Tambahkan UID user ke `public.admin_users`.
+4. Jalankan `supabase/video_storage_migration.sql` bila bucket video belum dibuat.
+
+Database yang sebelumnya memakai teks autoplay portrait dapat menjalankan:
+
+```text
+supabase/portrait_manual_play_fix.sql
+```
+
+Migration tersebut hanya mengganti teks default autoplay lama dan tidak menimpa deskripsi custom.
 
 ## Deploy Vercel
-Tambahkan environment variables yang sama seperti `.env.local` ke Vercel.
 
-Catatan: layout tetap di code. CMS dipakai untuk konten, media, link, dan setting supaya aman.
+Repo deploy tidak memerlukan `node_modules`, `.next`, `.next-dev`, `.env.local`, atau file audit lokal.
 
+Tambahkan environment variables berikut di Vercel:
 
-## Admin protection
+- `NEXT_PUBLIC_SUPABASE_URL`
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`
 
-Route `/admin`, `/admin/media`, `/admin/sales`, dan `/admin/settings` sekarang dilindungi oleh `middleware.ts`.
-Jika belum login atau user bukan anggota `admin_users`, browser otomatis diarahkan ke `/admin/login`.
+Lalu deploy branch `main`.
 
-Link masuk admin dipindahkan dari header ke bagian paling bawah footer dan ditampilkan sebagai teks `Admin` tanpa highlight.
+## Validasi
 
+```bash
+npm run typecheck
+npm run build
+```
 
-## Product asset update
+`npm run check:deploy` memerlukan environment variable Supabase asli.
 
-Official assets supplied by the user are stored in optimized WebP format:
+## Catatan update 18 Sep 2026
 
-- `public/brand/skygoat-logo.webp`
-- `public/products/original.webp`
-- `public/products/cokelat.webp`
-- `public/products/madu.webp`
-
-The originals were optimized for web use to reduce page weight while keeping transparent backgrounds.
-
-
-## Struktur halaman publik terbaru
-
-- `/` — Tentang SKYGOAT dan produk
-- `/sales-guide` — Digital Sales Guide
-- `/gallery` — Galeri foto/video
-- `/media` — redirect ke `/gallery`
-- `/admin` — CMS internal
-
-Versi ini memakai layout mobile-first yang lebih proporsional:
-- logo header lebih kecil
-- produk hero di-scale ulang
-- navigasi lebih ringkas
-- card menjadi 1 kolom di HP
-- CTA full-width di HP
-- typography dan spacing dikurangi di layar kecil
-
-
-## Mobile refinement
-
-Tambahan optimasi untuk HP 360–430px:
-- header dibuat dua baris agar logo dan navigasi tidak berdesakan
-- hero dan product stage diperkecil
-- tombol full-width pada HP
-- fakta brand dan product card dipadatkan
-- Sales Guide diubah menjadi flow vertikal yang lebih mudah dibaca
-- filter galeri dibuat horizontal-scroll
-- galeri 1 kolom dengan rasio 16:9
-- modal video dan footer dirapikan untuk layar kecil
-
-
-## Logo pilihan terbaru
-
-Website sekarang memakai logo SKYGOAT pilihan terbaru dari `Logo clear.png`.
-Asset web disimpan sebagai:
-
-`public/brand/skygoat-logo.webp`
-
-Ukuran tampilan logo juga diperkecil lagi agar lebih proporsional di desktop dan HP.
-
-
-## Hero product rotator
-
-Hero halaman utama sekarang menampilkan satu produk pada satu waktu.
-Varian Original, Cokelat, dan Madu berganti otomatis setiap 3,2 detik.
-User juga bisa memilih varian melalui indicator dot.
-Implementasi: `components/HeroProductRotator.tsx`.
+- CMS video dikembalikan ke kebutuhan asli: 1 landscape + 1 portrait.
+- Portrait memakai manual Play, bukan autoplay.
+- Deskripsi produk kosong dari CMS tidak lagi menghilangkan fallback bawaan.
+- Carousel produk menghormati reduced motion dan tidak mengganti pilihan user setelah dot dipilih.
+- Target sentuh carousel dan tombol tutup galeri diperbesar.
+- Anchor `#produk` dan `#flow` tidak lagi tertutup sticky header.
+- Search objection handling tidak lagi menggandakan semua jawaban.
+- Error playback video landscape dan portrait memiliki fallback yang lebih jelas.
+- Kontras label kecil ditingkatkan.
+- Cache build, dependency lokal, audit screenshot, dan file sementara tidak termasuk repo.
